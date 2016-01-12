@@ -1,18 +1,20 @@
 (function(){
   
-  var storage = function(){
+  var tabsStorage = function(){
+    
+    var STORAGE_KEY = 'grpee';
     
     return {
       get: getData,
       set: setData
     };
     
-    function getData(key){
-      return JSON.parse(localStorage.getItem(key));
+    function getData(){
+      return JSON.parse(localStorage.getItem(STORAGE_KEY));
     }
     
-    function setData(key, data){
-      localStorage.setItem(key, JSON.stringify(data));
+    function setData(data){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
   }();
   
@@ -56,7 +58,7 @@
   function handleSync(sender){
     
     var prop = sender.currentTarget.parentElement.parentElement.getAttribute('data-prop'),
-      map = storage.get('grpee'),
+      map = tabsStorage.get(),
       oldRow, newRow,
       listDiv = document.getElementById('list');
       
@@ -64,7 +66,7 @@
         
         map[prop].tabs = tabs;
   
-        storage.set('grpee', map);
+        tabsStorage.set(map);
         
         oldRow = document.getElementById('div' + prop);
         newRow = createRow(map, prop);
@@ -78,7 +80,7 @@
   function handleLoad(sender){
     
     var prop = sender.currentTarget.parentElement.parentElement.getAttribute('data-prop'),
-      map = storage.get('grpee'),
+      map = tabsStorage.get(),
       restoreTabs = map[prop].tabs;
     
     tabManager.getTabs(function(tabs){
@@ -87,6 +89,20 @@
         });
         tabManager.removeTabs(tabs);
     });
+    
+  }
+  
+  function handleDelete(sender){
+    
+    var parent = sender.currentTarget.parentElement.parentElement,
+      prop = parent.getAttribute('data-prop'),
+      map = tabsStorage.get(),
+      listDiv = document.getElementById('list');
+    
+    delete map[prop];
+    tabsStorage.set(map);
+    
+    listDiv.removeChild(parent);
     
   }
     
@@ -130,6 +146,12 @@
       button.addEventListener('click', handleLoad);
       buttonsDiv.appendChild(button);
       
+      button = document.createElement('button');
+      button.textContent = 'delete';
+      button.className = 'btn btn-primary btn-xs';
+      button.addEventListener('click', handleDelete);
+      buttonsDiv.appendChild(button);
+      
       return itemDiv; 
   }
   
@@ -144,7 +166,7 @@
   function handleNew(){
     var name = document.getElementById('txtNew').value,
       prop = name.replace(/\s/g, "_"),
-      map = storage.get('grpee');
+      map = tabsStorage.get();
     
     if(prop.length === 0){
       return;
@@ -161,14 +183,14 @@
       tabs: []
     };
   
-    storage.set('grpee', map);
+    tabsStorage.set(map);
     
     addRow(map, prop);
   }
   
   function init(){
     document.getElementById('btnNew').addEventListener('click', handleNew);
-    var map = storage.get('grpee');
+    var map = tabsStorage.get();
       
     if(map === null){
       map = {};
