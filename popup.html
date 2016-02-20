@@ -8,6 +8,18 @@
   <head>
     <title>Getting Started Extension's Popup</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    
+    <!-- 1. Load libraries -->
+    <!-- IE required polyfills, in this exact order -->
+    <script src="node_modules/es6-shim/es6-shim.min.js"></script>
+    <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
+    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+    
+    <!-- 2. Configure SystemJS : MOVED TO POPUP.JS AS CHROMEEXT  DOESNT ALLOW INLINE SCRIPT-->
+    
     <style>
       body {
         font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
@@ -33,13 +45,7 @@
     <script src="popup.js"></script>
   </head>
   <body>
-    <fieldset>
-      <legend>New Group</legend>
-      <input type="text" class="form-control" id="txtNew" placeholder="Group name">
-      <button id="btnNew" class="btn btn-primary btn-xs">Add</button>
-    </fieldset>
-    <hr/>    
-    <div id="list" class="list"></div>
+    <my-app>Loading...</my-app>
     
   </body>
 </html>

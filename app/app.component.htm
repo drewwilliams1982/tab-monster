@@ -1,0 +1,10 @@
+<new-tab-group (groupAdded)="addGroup($event)"></new-tab-group>
+<fieldset>
+    <legend>Tab Groups</legend>
+    <div *ngFor="#tabGroup of tabGroups">
+        <tab-group-detail [tab-group]='tabGroup' 
+            (sync)='syncTabGroup($event)' 
+            (delete)='deleteTabGroup($event)' 
+            (load)='loadTabGroup($event)'></tab-group-detail>
+    </div>
+</fieldset>
