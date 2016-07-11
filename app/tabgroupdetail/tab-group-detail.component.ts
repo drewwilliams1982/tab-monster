@@ -14,6 +14,8 @@ export class TabGroupDetailComponent {
     @Output() delete: EventEmitter<TabGroup> = new EventEmitter<TabGroup>();
     
     @Output() load: EventEmitter<TabGroup> = new EventEmitter<TabGroup>();
+
+    showTabs: Boolean = false;
     
     syncHandle(){
         this.sync.emit(this.tabGroup);
@@ -25,5 +27,13 @@ export class TabGroupDetailComponent {
     
     deleteHandle(){
         this.delete.emit(this.tabGroup);
+    }
+    
+    expandHandle(){
+        this.showTabs = true;
+    }
+    
+    collapseHandle(){
+        this.showTabs = false;
     }
 }

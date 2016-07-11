@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit, ChangeDetectorRef} from 'angular2/core';
 import {TabGroup} from './entities/tabgroup/tabgroup';
 import {NewTabGroupComponent} from './newtabgroup/newtabgroup.component';
 import {TabGroupDetailComponent} from './tabgroupdetail/tab-group-detail.component';
@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
 
     tabGroups: TabGroup[];
 
-    constructor(private _tabService: TabService) { }
+    constructor(private _tabService: TabService, private ref: ChangeDetectorRef) { }
 
     ngOnInit() {
         this._init();
@@ -33,7 +33,11 @@ export class AppComponent implements OnInit {
     }
 
     syncTabGroup(tabGroup: TabGroup): void {
-        this._tabService.syncTabGroup(tabGroup);
+        this._tabService.syncTabGroup(tabGroup, 
+        () => {
+            this._init();
+            this.ref.detectChanges();
+        });
     }
 
     loadTabGroup(tabGroup: TabGroup): void {

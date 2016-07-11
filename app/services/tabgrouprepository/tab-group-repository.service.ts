@@ -7,7 +7,12 @@ export class TabGroupRepositoryService {
     private _storageKey: string = 'grpee';
 
     get(): TabGroup[] {
-        return JSON.parse(localStorage.getItem(this._storageKey));
+        var tabgroup = JSON.parse(localStorage.getItem(this._storageKey));
+        console.log(tabgroup);
+        if (tabgroup) {
+            return tabgroup;
+        }
+        return [];
     }
 
     set(data: TabGroup[]) {

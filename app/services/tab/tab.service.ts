@@ -29,13 +29,15 @@ export class TabService {
         this._repository.set(tabGroups);
     }
 
-    syncTabGroup(tabGroup: TabGroup): void {
+    syncTabGroup(tabGroup: TabGroup, cb: () => void): void {
         this._tabManager.getTabs((tabs) => {
             var tabGroups: TabGroup[] = this._repository.get();
             var saveTabGroup = this._find(tabGroups, tabGroup);
             saveTabGroup.tabs = tabs;
             this._repository.set(tabGroups);
-        })
+            console.log(tabs);
+            cb();
+        });
     }
 
     loadTabGroup(tabGroup: TabGroup): void {
