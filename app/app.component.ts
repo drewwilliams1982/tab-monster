@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectorRef} from 'angular2/core';
+import {Component, OnInit, ChangeDetectorRef, NgZone} from 'angular2/core';
 import {TabGroup} from './entities/tabgroup/tabgroup';
 import {NewTabGroupComponent} from './newtabgroup/newtabgroup.component';
 import {TabGroupDetailComponent} from './tabgroupdetail/tab-group-detail.component';
@@ -16,35 +16,41 @@ export class AppComponent implements OnInit {
 
     tabGroups: TabGroup[];
 
-    constructor(private _tabService: TabService, private ref: ChangeDetectorRef) { }
+    constructor(
+        private _tabService: TabService 
+        //private _ngZone: NgZone,
+        //private _changeDetectorRef: ChangeDetectorRef
+    ){
+    }
 
     ngOnInit() {
         this._init();
     }
 
-    addGroup(tabGroup: TabGroup): void {
-        this._tabService.addTabGroup(tabGroup);
+    async addGroup(tabGroup: TabGroup): Promise<void> {
+        await this._tabService.addTabGroup(tabGroup);
         this._init();
     }
 
-    deleteTabGroup(tabGroup: TabGroup): void {
-        this._tabService.deleteTabGroup(tabGroup);
+    async deleteTabGroup(tabGroup: TabGroup): Promise<void> {
+        await this._tabService.deleteTabGroup(tabGroup);
         this._init();
     }
 
-    syncTabGroup(tabGroup: TabGroup): void {
-        this._tabService.syncTabGroup(tabGroup, 
-        () => {
-            this._init();
-            this.ref.detectChanges();
-        });
+    async syncTabGroup(tabGroup: TabGroup): Promise<void> {
+        await this._tabService.syncTabGroup(tabGroup); 
+        this._init();
     }
 
-    loadTabGroup(tabGroup: TabGroup): void {
-        this._tabService.loadTabGroup(tabGroup);
+    async loadTabGroup(tabGroup: TabGroup): Promise<void> {
+        await this._tabService.loadTabGroup(tabGroup);
     }
 
-    private _init(): void {
-        this.tabGroups = this._tabService.get();
+    private async _init(): Promise<void> {
+        var tabGroups = await this._tabService.get();
+        //this._ngZone.run(() => {
+            this.tabGroups = tabGroups;
+        //});
+        //this._changeDetectorRef.detectChanges() 
     }
 }

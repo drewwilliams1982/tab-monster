@@ -11,40 +11,37 @@ export class TabService {
         @Inject(TabManagerService) private _tabManager: TabManagerService) {
     }
 
-    get(): TabGroup[] {
+    get(): Promise<TabGroup[]> {
         return this._repository.get();
     }
 
-    addTabGroup(tabGroup: TabGroup): void {
-        var tabGroups = this._repository.get();
+    async addTabGroup(tabGroup: TabGroup): Promise<void> {
+        var tabGroups = await this._repository.get();
         tabGroups.splice(0, 0, tabGroup);
-        this._repository.set(tabGroups);
+        await this._repository.set(tabGroups);
     }
 
-    deleteTabGroup(tabGroup: TabGroup): void {
-        var tabGroups: TabGroup[] = this._repository.get();
+    async deleteTabGroup(tabGroup: TabGroup): Promise<void> {
+        var tabGroups = await this._repository.get();
+        
         var deleteElem = this._find(tabGroups, tabGroup);
         var index = tabGroups.indexOf(deleteElem);
         tabGroups.splice(index, 1);
         this._repository.set(tabGroups);
     }
 
-    syncTabGroup(tabGroup: TabGroup, cb: () => void): void {
-        this._tabManager.getTabs((tabs) => {
-            var tabGroups: TabGroup[] = this._repository.get();
-            var saveTabGroup = this._find(tabGroups, tabGroup);
-            saveTabGroup.tabs = tabs;
-            this._repository.set(tabGroups);
-            console.log(tabs);
-            cb();
-        });
+    async syncTabGroup(tabGroup: TabGroup): Promise<void> {
+        var tabs = await this._tabManager.getTabs();
+        var tabGroups = await this._repository.get();
+        var saveTabGroup = this._find(tabGroups, tabGroup);
+        saveTabGroup.tabs = tabs;
+        this._repository.set(tabGroups);
     }
 
-    loadTabGroup(tabGroup: TabGroup): void {
-        this._tabManager.getTabs((tabs) => {
-            tabGroup.tabs.forEach((tab, index) => this._tabManager.createTab(tab));
-            this._tabManager.removeTabs(tabs);
-        });
+    async loadTabGroup(tabGroup: TabGroup): Promise<void> {
+        var tabs = await this._tabManager.getTabs();
+        tabGroup.tabs.forEach((tab, index) => this._tabManager.createTab(tab));
+        this._tabManager.removeTabs(tabs);
     }
     
     private _find(tabGroups:TabGroup[], tabGroup:TabGroup){

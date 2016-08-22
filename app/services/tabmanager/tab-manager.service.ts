@@ -10,19 +10,21 @@ export class TabManagerService {
     /**
      * Get a list of the currently open tabs
      */
-    getTabs(cb: TabCallback) {
-        var queryInfo: chrome.tabs.QueryInfo = {
-            currentWindow: true
-        };
+    getTabs(): Promise<Tab[]> {
+        return new Promise<Tab[]>((resolve, reject) => {
+            var queryInfo: chrome.tabs.QueryInfo = {
+                currentWindow: true
+            };
 
-        chrome.tabs.query(queryInfo,
-            (tabs: chrome.tabs.Tab[]) => {
-                var myTabs: Tab[] = tabs.map((t) => {
-                    return new Tab(t.id, t.url, t.pinned);
+            chrome.tabs.query(queryInfo,
+                (tabs: chrome.tabs.Tab[]) => {
+                    var myTabs: Tab[] = tabs.map((t) => {
+                        return new Tab(t.id, t.url, t.pinned);
+                    });
+
+                    resolve(myTabs);
                 });
-
-                cb(myTabs);
-            });
+        });
     }
 
     /**
