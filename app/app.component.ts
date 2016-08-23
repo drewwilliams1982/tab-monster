@@ -1,7 +1,7 @@
-import {Component, OnInit, ChangeDetectorRef, NgZone} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {TabGroup} from './entities/tabgroup/tabgroup';
-import {NewTabGroupComponent} from './newtabgroup/newtabgroup.component';
-import {TabGroupDetailComponent} from './tabgroupdetail/tab-group-detail.component';
+import {NewTabGroupComponent} from './components/newtabgroup/newtabgroup.component';
+import {TabGroupDetailComponent} from './components/tabgroupdetail/tab-group-detail.component';
 import {TabService} from './services/tab/tab.service';
 import {TabGroupRepositoryService} from './services/tabgrouprepository/tab-group-repository.service'
 import {TabManagerService} from './services/tabmanager/tab-manager.service'
@@ -18,8 +18,6 @@ export class AppComponent implements OnInit {
 
     constructor(
         private _tabService: TabService 
-        //private _ngZone: NgZone,
-        //private _changeDetectorRef: ChangeDetectorRef
     ){
     }
 
@@ -48,9 +46,6 @@ export class AppComponent implements OnInit {
 
     private async _init(): Promise<void> {
         var tabGroups = await this._tabService.get();
-        //this._ngZone.run(() => {
-            this.tabGroups = tabGroups;
-        //});
-        //this._changeDetectorRef.detectChanges() 
+        this.tabGroups = tabGroups;
     }
 }

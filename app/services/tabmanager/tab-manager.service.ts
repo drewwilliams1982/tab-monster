@@ -2,7 +2,7 @@
 
 import {Injectable} from 'angular2/core';
 import {TabGroup} from '../../entities/tabgroup/tabgroup';
-import {Tab, TabCallback} from '../../entities/tab/tab';
+import {Tab} from '../../entities/tab/tab';
 
 @Injectable()
 export class TabManagerService {

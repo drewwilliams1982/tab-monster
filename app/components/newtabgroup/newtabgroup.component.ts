@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Output} from 'angular2/core';
-import {TabGroup} from '../entities/tabgroup/tabgroup';
+import {TabGroup} from '../../entities/tabgroup/tabgroup';
 
 @Component({
     selector: 'new-tab-group',
-    templateUrl: 'app/newtabgroup/newtabgroup.component.htm'
+    templateUrl: 'app/components/newtabgroup/newtabgroup.component.htm'
 })
 export class NewTabGroupComponent {
 
