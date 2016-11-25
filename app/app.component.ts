@@ -7,15 +7,23 @@ import {TabGroupRepositoryService} from './services/tabgrouprepository/tab-group
 import {TabManagerService} from './services/tabmanager/tab-manager.service'
 
 @Component({
+    moduleId: __moduleName,
     selector: 'my-app',
-    templateUrl: 'app/app.component.htm',
+    templateUrl: 'app.component.htm',
     directives: [NewTabGroupComponent, TabGroupDetailComponent],
     providers: [TabService, TabGroupRepositoryService, TabManagerService]
+    // REALLY INTERSTING POINT! When resolving injected services, the DI framework looks at the lowest component first
+    // If the service is a listed _provider_ then it creates a new instance of that provider.
+    // If the service is not listed, IT CHECKS THE PARENT COMPONENT. If the parent component uses it, then the child uses THE SAME INSTANCE.
+    // If not found, then Angular spews up.
 })
 export class AppComponent implements OnInit {
 
     tabGroups: TabGroup[];
 
+    title = 'Tab Monster';
+    divcolour = "lightgray";
+    
     constructor(
         private _tabService: TabService 
     ){

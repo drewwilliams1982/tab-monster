@@ -1,8 +1,13 @@
 <fieldset>
     <legend>New Group</legend>
     <input [(ngModel)]="name" type="text" class="form-control" placeholder="Group name">
-    <button 
+    <!--<input (keyup.enter)="name = $event.target.valuename" type="text" class="form-control" placeholder="Group name">
+        valid alternative to using ngModel (in this example when enter is pressed name is updated) 
+    -->
+    <button
         id="btnNew" 
         class="btn btn-primary btn-xs"
         (click)="addHandler()">Add</button>
+
+    <!-- [()] Banana in a box : 2 way databinding -->
 </fieldset>

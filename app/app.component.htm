@@ -1,10 +1,14 @@
 <new-tab-group (groupAdded)="addGroup($event)"></new-tab-group>
 <fieldset>
-    <legend>Tab Groups</legend>
-    <div *ngFor="#tabGroup of tabGroups">
+    <legend>{{title}}</legend>
+    <div *ngFor="#tabGroup of tabGroups" [style.background]="divcolour">
         <tab-group-detail [tab-group]='tabGroup' 
             (sync)='syncTabGroup($event)' 
             (delete)='deleteTabGroup($event)' 
             (load)='loadTabGroup($event)'></tab-group-detail>
     </div>
+    <!-- 
+        [] is a property binding (one way component to DOM)
+        ()  is an event binding (one way DOM to component)
+    -->
 </fieldset>

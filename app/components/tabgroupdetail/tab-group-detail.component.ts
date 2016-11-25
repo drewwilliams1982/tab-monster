@@ -2,8 +2,9 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {TabGroup} from '../../entities/tabgroup/tabgroup';
 
 @Component({
+    moduleId: __moduleName,
     selector: 'tab-group-detail',
-    templateUrl: 'app/components/tabgroupdetail/tab-group-detail.component.htm'
+    templateUrl: 'tab-group-detail.component.htm'
 })
 export class TabGroupDetailComponent {
 

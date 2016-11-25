@@ -2,8 +2,9 @@ import {Component, EventEmitter, Output} from 'angular2/core';
 import {TabGroup} from '../../entities/tabgroup/tabgroup';
 
 @Component({
+    moduleId: __moduleName,
     selector: 'new-tab-group',
-    templateUrl: 'app/components/newtabgroup/newtabgroup.component.htm'
+    templateUrl: 'newtabgroup.component.htm'
 })
 export class NewTabGroupComponent {
 
